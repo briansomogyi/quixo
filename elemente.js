@@ -1,21 +1,25 @@
-let cube = 50; // Size of each square on the board
+let cubeSize = 100; 
+let boardSize = 5; 
 
 function setup() {
-  createCanvas(5 * cube, 5 * cube);
+  createCanvas(600, 600, WEBGL);
   drawBoard();
 }
 
 function drawBoard() {
-  let lightColor = color(255, 206, 158); 
-  let x, y;
+  let Color = color(255, 206, 158); 
 
-  for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 8; j++) {
-      x = i * cube;
-      y = j * cube;
+  for (let i = 0; i < boardSize; i++) {
+    for (let j = 0; j < boardSize; j++) {
+      push();
+      let x = i * cubeSize;
+      let y = j * cubeSize;
+      let z = 0;
+      fill(Color);
       
-      fill(lightColor);
-      rect(x, y, cube, cube);
+      translate(x - 200, y - 200, z - cubeSize / 2);
+      box(cubeSize);
+      pop();
     }
   }
 }
