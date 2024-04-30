@@ -1,6 +1,8 @@
-let cubeSize = 100; // Size of each cube on the cboard
+let cubeSize = 80; // Size of each cube on the cboard
 let boardSize = 5; // Size of the board (5x5)
-let rotationSpeed = 0.0005; // Speed of rotation
+let rotationSpeed = 0.0015; // Speed of rotation
+let gamePaused = false;
+let gap = 20; 
 
 // Define the indices of the cubes where the circle symbol will be drawn
 let circleIndices = [
@@ -29,12 +31,30 @@ let crossIndices = [
 
 
 function setup() {
-  createCanvas(600, 600, WEBGL);
+  createCanvas(1250, 600, WEBGL);
+  let restartButton = createButton('Restart');
+  restartButton.position(20, 20);
+  restartButton.mousePressed(restartGame);
+  
+  // Resume button
+  let resumeButton = createButton('Resume');
+  resumeButton.position(100, 20);
+  resumeButton.mousePressed(resumeGame);
+  
+  // Finish button
+  let finishButton = createButton('Finish');
+  finishButton.position(180, 20);
+  finishButton.mousePressed(finishGame);
 }
 
 function draw() {
   background(220);
   drawboard();
+  
+  // Display game state
+  textSize(20);
+  textAlign(CENTER);
+  text(gamePaused ? 'Game Paused' : 'Game Running', width / 2, height / 2);
 }
 
 function drawboard() {
@@ -44,12 +64,12 @@ function drawboard() {
   for (let i = 0; i < boardSize; i++) {
     for (let j = 0; j < boardSize; j++) {
       push();
-      let x = i * cubeSize;
-      let y = j * cubeSize;
+      let x = i * (cubeSize + gap); // Add gap between cubes
+      let y = j * (cubeSize + gap); // Add gap between cubes
       let z = 0;
       fill(Color);
       
-      translate(x - 100, y - 100, z - cubeSize / 2);
+      translate(x - 200, y - 200, z - cubeSize / 2);
       //rotateX(rotationAngle); // Apply rotation around X axis
       //rotateY(rotationAngle); // Apply rotation around Y axis
       strokeWeight(5);
@@ -90,4 +110,19 @@ function drawCrossOnFace(size) {
   translate(0, 0, offset);
   rect(-crossLength / 2, -size / 8, crossLength, size / 4);
   rect(-size / 8, -crossLength / 2, size / 4, crossLength);
+}
+
+function restartGame() {
+  // Add logic to restart the game
+  gamePaused = false;
+}
+
+function resumeGame() {
+  // Add logic to resume the game
+  gamePaused = false;
+}
+
+function finishGame() {
+  // Add logic to finish the game
+  gamePaused = true;
 }
