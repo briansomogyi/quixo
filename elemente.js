@@ -2,7 +2,7 @@ let cubeSize = 80; // Size of each cube on the cboard
 let boardSize = 5; // Size of the board (5x5)
 let rotationSpeed = 0.0015; // Speed of rotation
 let gamePaused = false;
-let gap = 20; 
+let gap = 20;
 
 // Define the indices of the cubes where the circle symbol will be drawn
 let circleIndices = [
@@ -30,43 +30,17 @@ let crossIndices = [
 ];
 
 
-// Function to shuffle the arrays
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i].x, array[j].x] = [array[j].x, array[i].x];
-    [array[i].y, array[j].y] = [array[j].y, array[i].y];
-  }
-}
-
-// Function to handle restart button click
-function handleRestartClick() {
-  // Shuffle circleIndices
-  shuffleArray(circleIndices);
-  console.log('Shuffled circleIndices:', circleIndices);
-
-  // Shuffle crossIndices
-  shuffleArray(crossIndices);
-  console.log('Shuffled crossIndices:', crossIndices);
-
-  // You can update your UI or perform any other actions here
-}
-
-
-
 function setup() {
   createCanvas(1250, 600, WEBGL);
-  
-  // Restart button
   let restartButton = createButton('Restart');
   restartButton.position(20, 20);
-  restartButton.mousePressed(handleRestartClick);
-  
+  restartButton.mousePressed(restartGame);
+
   // Resume button
   let resumeButton = createButton('Resume');
   resumeButton.position(100, 20);
   resumeButton.mousePressed(resumeGame);
-  
+
   // Finish button
   let finishButton = createButton('Finish');
   finishButton.position(180, 20);
@@ -76,7 +50,7 @@ function setup() {
 function draw() {
   background(220);
   drawboard();
-  
+
   // Display game state
   textSize(20);
   textAlign(CENTER);
@@ -84,7 +58,7 @@ function draw() {
 }
 
 function drawboard() {
-  let Color = color(255, 206, 158); 
+  let Color = color(255, 206, 158);
   let rotationAngle = millis() * rotationSpeed; // Calculate rotation angle based on time
 
   for (let i = 0; i < boardSize; i++) {
@@ -94,7 +68,7 @@ function drawboard() {
       let y = j * (cubeSize + gap); // Add gap between cubes
       let z = 0;
       fill(Color);
-      
+
       translate(x - 200, y - 200, z - cubeSize / 2);
       //rotateX(rotationAngle); // Apply rotation around X axis
       //rotateY(rotationAngle); // Apply rotation around Y axis
@@ -105,7 +79,7 @@ function drawboard() {
       if (circleIndices.some(index => index.x === i && index.y === j)) {
         drawCircleOnFace(cubeSize);
       }
-      
+
       // Check if the current cube is in the crossIndices array
       if (crossIndices.some(index => index.x === i && index.y === j)) {
         drawCrossOnFace(cubeSize);
@@ -140,8 +114,13 @@ function drawCrossOnFace(size) {
 
 function restartGame() {
   // Add logic to restart the game
+  // Shuffle the indices for circle and cross symbols
+  shuffleArray(circleIndices);
+  shuffleArray(crossIndices);
   gamePaused = false;
 }
+
+
 
 function resumeGame() {
   // Add logic to resume the game
@@ -151,4 +130,12 @@ function resumeGame() {
 function finishGame() {
   // Add logic to finish the game
   gamePaused = true;
+}
+
+// Utility function to shuffle an array
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+  }
 }
