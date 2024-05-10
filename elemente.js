@@ -30,11 +30,37 @@ let crossIndices = [
 ];
 
 
+// Function to shuffle the arrays
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i].x, array[j].x] = [array[j].x, array[i].x];
+    [array[i].y, array[j].y] = [array[j].y, array[i].y];
+  }
+}
+
+// Function to handle restart button click
+function handleRestartClick() {
+  // Shuffle circleIndices
+  shuffleArray(circleIndices);
+  console.log('Shuffled circleIndices:', circleIndices);
+
+  // Shuffle crossIndices
+  shuffleArray(crossIndices);
+  console.log('Shuffled crossIndices:', crossIndices);
+
+  // You can update your UI or perform any other actions here
+}
+
+
+
 function setup() {
   createCanvas(1250, 600, WEBGL);
+  
+  // Restart button
   let restartButton = createButton('Restart');
   restartButton.position(20, 20);
-  restartButton.mousePressed(restartGame);
+  restartButton.mousePressed(handleRestartClick);
   
   // Resume button
   let resumeButton = createButton('Resume');
