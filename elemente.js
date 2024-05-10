@@ -30,6 +30,9 @@ let crossIndices = [
 ];
 
 
+
+
+
 function setup() {
   createCanvas(1250, 600, WEBGL);
   let restartButton = createButton('Restart');
@@ -112,8 +115,12 @@ function drawCrossOnFace(size) {
   rect(-size / 8, -crossLength / 2, size / 4, crossLength);
 }
 
+
+
 function restartGame() {
-  // Add logic to restart the game
+  // Shuffle the indices for circle and cross symbols
+  shuffleArray(circleIndices);
+  shuffleArray(crossIndices);
   gamePaused = false;
 }
 
@@ -125,4 +132,12 @@ function resumeGame() {
 function finishGame() {
   // Add logic to finish the game
   gamePaused = true;
+}
+
+// Utility function to shuffle an array
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+  }
 }
