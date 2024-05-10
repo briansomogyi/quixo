@@ -94,10 +94,13 @@ function drawCircleOnFace(size) {
   let offset = size / 2;
   let diameter = size * 0.8;
   let circleColor = color(255, 0, 0); // Circle color
+  
+  push();
+  fill(circleColor);
   strokeWeight(5);
-
   translate(0, 0, offset);
   ellipse(0, 0, diameter, diameter);
+  pop();
 }
 
 
@@ -105,11 +108,14 @@ function drawCrossOnFace(size) {
   let offset = size / 2;
   let crossLength = size * 0.8;
   let crossColor = color(0, 0, 255); // Cross color
+  
+  push();
+  fill(crossColor);
   strokeWeight(5);
-
   translate(0, 0, offset);
   rect(-crossLength / 2, -size / 8, crossLength, size / 4);
   rect(-size / 8, -crossLength / 2, size / 4, crossLength);
+  pop();
 }
 
 function restartGame() {
