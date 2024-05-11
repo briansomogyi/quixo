@@ -58,7 +58,7 @@ function draw() {
 }
 
 function drawboard() {
-  let Color = color(255, 206, 158);
+  let boardColor = color(255, 206, 158);
   let rotationAngle = millis() * rotationSpeed; // Calculate rotation angle based on time
 
   for (let i = 0; i < boardSize; i++) {
@@ -67,7 +67,7 @@ function drawboard() {
       let x = i * (cubeSize + gap); // Add gap between cubes
       let y = j * (cubeSize + gap); // Add gap between cubes
       let z = 0;
-      fill(Color);
+      fill(boardColor);
 
       translate(x - 200, y - 200, z - cubeSize / 2);
       //rotateX(rotationAngle); // Apply rotation around X axis
