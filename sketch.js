@@ -9,7 +9,7 @@ function preload() {
 
 function setup() {
     // create canvas
-    createCanvas(1250, 600);
+    createCanvas(1250, 600, WEBGL);
     background(220);
 
 
@@ -57,7 +57,7 @@ function greet() {
     for (let i = 0; i < 200; i++) {
         push();
         fill(color);
-        translate(random(width), random(height));
+        translate(-width / 2 + random(width), -height / 2 + random(height), 0); //moves our drawing origin to the top left corner
         rotate(random(2 * PI));
         text(name, 0, 0);
         pop();
