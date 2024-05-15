@@ -37,7 +37,7 @@ function greet() {
 
     let color;
     if ("etian".startsWith(name.toLowerCase())) {
-        color = "blue";
+        color = " white";
 
     } else {
         if ( "brian".startsWith(name.toLowerCase())) {
@@ -48,7 +48,7 @@ function greet() {
                 color = "pink";
 
             } else {
-                color = "white";
+                color = "black";
 
             }
         }
