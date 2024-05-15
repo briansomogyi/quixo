@@ -36,15 +36,15 @@ function greet() {
     input.value('');
 
     let color;
-    if (name == "Etian") {
+    if ("etian".startsWith(name.toLowerCase())) {
         color = "blue";
 
     } else {
-        if (name == "Brian") {
+        if ( "brian".startsWith(name.toLowerCase())) {
             color = "green";
 
         } else {
-            if (name == "Giulia" || name == "Giuliana") {
+            if ( "giuliana".startsWith(name.toLowerCase())) {
                 color = "pink";
 
             } else {
