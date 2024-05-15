@@ -9,7 +9,9 @@ function preload() {
 
 function setup() {
     // create canvas
-    createCanvas(710, 400);
+    createCanvas(1250, 600);
+    background(220);
+
 
     input = createInput();
     input.position(20, 65);
@@ -35,7 +37,7 @@ function greet() {
 
     let color;
     if (name == "Etian") {
-        color = "yellow";
+        color = "blue";
 
     } else {
         if (name == "Brian") {
