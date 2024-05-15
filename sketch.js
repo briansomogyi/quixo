@@ -1,5 +1,5 @@
-let font,
-    fontsize = 32;
+let font, fontsize = 32;
+let input, button, greeting;
 
 function preload() {
     // Ensure the .ttf or .otf font stored in the assets directory
@@ -8,50 +8,57 @@ function preload() {
 }
 
 function setup() {
+    // create canvas
     createCanvas(710, 400);
+
+    input = createInput();
+    input.position(20, 65);
+
+    button = createButton('submit');
+    button.position(input.x + input.width, 65);
+    button.mousePressed(greet);
+
+    greeting = createElement('h2', 'what is your name?');
+    greeting.position(20, 5);
 
     // Set text characteristics
     textFont(font);
     textSize(fontsize);
-    textAlign(CENTER, CENTER);
+    textAlign(CENTER);
+    textSize(50);
 }
 
-function draw() {
-    background(160);
+function greet() {
+    const name = input.value();
+    greeting.html('hello ' + name + '!');
+    input.value('');
 
-    // Set the gap between letters and the left and top margin
-    let gap = 52;
-    let margin = 10;
-    translate(margin * 4, margin * 4);
+    let color;
+    if (name == "Etian") {
+        color = "yellow";
 
-    // Set the counter to start at the character you want
-    // in this case 35, which is the # symbol
-    let counter = 35;
+    } else {
+        if (name == "Brian") {
+            color = "green";
 
-    // Loop as long as there is space on the canvas
-    for (let y = 0; y < height - gap; y += gap) {
-        for (let x = 0; x < width - gap; x += gap) {
-            // Use the counter to retrieve individual letters by their Unicode number
-            let letter = char(counter);
+        } else {
+            if (name == "Giulia" || name == "Giuliana") {
+                color = "pink";
 
-            // Add different color to the vowels and other characters
-            if (
-                letter === 'A' ||
-                letter === 'E' ||
-                letter === 'I' ||
-                letter === 'O' ||
-                letter === 'U'
-            ) {
-                fill('#ed225d');
             } else {
-                fill(255);
+                color = "white";
+
             }
-
-            // Draw the letter to the screen
-            text(letter, x, y);
-
-            // Increment the counter
-            counter++;
         }
     }
+
+    for (let i = 0; i < 200; i++) {
+        push();
+        fill(color);
+        translate(random(width), random(height));
+        rotate(random(2 * PI));
+        text(name, 0, 0);
+        pop();
+    }
 }
+const names = ["Etian", "Brian", "Giulia",];
