@@ -49,6 +49,7 @@ function setup() {
 
 function draw() {
   background(220);
+  drawTable();
   drawboard();
 
   // Display game state
@@ -94,7 +95,7 @@ function drawCircleOnFace(size) {
   let offset = size / 2;
   let diameter = size * 0.8;
   let circleColor = color(255, 0, 0); // Circle color
-  
+
   push();
   fill(circleColor);
   strokeWeight(5);
@@ -108,7 +109,7 @@ function drawCrossOnFace(size) {
   let offset = size / 2;
   let crossLength = size * 0.8;
   let crossColor = color(0, 0, 255); // Cross color
-  
+
   push();
   fill(crossColor);
   strokeWeight(5);
@@ -144,4 +145,12 @@ function shuffleArray(array) {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]]; // Swap elements
   }
+}
+
+
+function drawTable() {
+  push();
+  fill(255,128,0);
+  ellipse(0, 0, 700, 700);
+
 }
