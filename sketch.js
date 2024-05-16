@@ -1,13 +1,13 @@
 let font; // fontul pe care il vom folosi sa scriem pe ecran 
 let fontsize = 32;
 let input; // casuta in care ne vom scrie numele 
-let button; // butonuld de submit 
+let button; // butonul de submit 
 let greeting;// // titlul de deasupra casutei
 
 function preload() {
     // Ensure the .ttf or .otf font stored in the assets directory
     // is loaded before setup() and draw() are called
-    font = loadFont('assets/SedanSC-Regular.ttf');
+    font = loadFont('assets/SedanSC-Regular.ttf'); // incarca fontul
 }
 
 function setup() {
