@@ -12,8 +12,11 @@ const names = ["Etian", "Brian", "Giulia",];
 
 console.log(`${names.join("\n")}\n\n`);
 
-let font, fontsize = 32;
-let input, button, greeting;
+let font; // fontul pe care il vom folosi sa scriem pe ecran 
+let fontsize = 32;
+let input; // casuta in care ne vom scrie numele 
+let button; // butonul de submit 
+let greeting;// // titlul de deasupra casutei
 
 let cubeSize = 80; // Size of each cube on the cboard
 let boardSize = 5; // Size of the board (5x5)
