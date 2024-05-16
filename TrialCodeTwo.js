@@ -144,7 +144,7 @@ function drawboard() {
 function drawCircleOnFace(size) {
   let offset = size / 2;
   let diameter = size * 0.8;
-  fill(255, 0, 0); // Circle color
+  fill(255, 206, 158); // Circle color
   strokeWeight(5);
   translate(0, 0, offset);
   ellipse(0, 0, diameter, diameter);
@@ -153,7 +153,7 @@ function drawCircleOnFace(size) {
 function drawCrossOnFace(size) {
   let offset = size / 2;
   let crossLength = size * 0.8;
-  fill(0, 0, 255); // Cross color
+  fill(255, 206, 158); // Cross color
   strokeWeight(5);
   translate(0, 0, offset);
   line(-crossLength / 2, 0, crossLength / 2, 0);
@@ -163,7 +163,7 @@ function drawCrossOnFace(size) {
 function drawSquareOnFace(size) {
   let offset = size / 2;
   let squareSize = size * 0.8;
-  fill(0, 255, 0); // Square color
+  fill(255, 206, 158); // Square color
   strokeWeight(5);
   translate(0, 0, offset);
   rect(-squareSize / 2, -squareSize / 2, squareSize, squareSize);
