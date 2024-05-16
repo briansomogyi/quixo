@@ -21,7 +21,7 @@ function setup() {
 
     button = createButton('submit');
     button.position(input.x + input.width, 65);
-    button.mousePressed(greet);
+    button.mousePressed(greet); // cand apas butonul, apelez functia greet
 
     greeting = createElement('h2', 'what is your name?');
     greeting.position(20, 5);
