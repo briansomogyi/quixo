@@ -1,5 +1,8 @@
-let font, fontsize = 32;
-let input, button, greeting;
+let font; // fontul pe care il vom folosi sa scriem pe ecran 
+let fontsize = 32;
+let input; // casuta in care ne vom scrie numele 
+let button; // butonuld de submit 
+let greeting;// // titlul de deasupra casutei
 
 function preload() {
     // Ensure the .ttf or .otf font stored in the assets directory
