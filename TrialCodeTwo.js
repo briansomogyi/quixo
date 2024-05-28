@@ -190,12 +190,16 @@ function switchSymbols(cubeA, cubeB) {
   let cubeAIndex = findSymbolIndex(cubeA);
   let cubeBIndex = findSymbolIndex(cubeB);
 
-  // If both cubes have symbols, swap them
-  if (cubeAIndex && cubeBIndex) {
-    let temp = cubeAIndex.indices[cubeAIndex.index];
-    cubeAIndex.indices[cubeAIndex.index] = cubeBIndex.indices[cubeBIndex.index];
-    cubeBIndex.indices[cubeBIndex.index] = temp;
-  }
+    // Check if cubes are neighbors
+    let areNeighbors = (Math.abs(cubeA.x - cubeB.x) === 1 && cubeA.y === cubeB.y) ||
+    (cubeA.x === cubeB.x && Math.abs(cubeA.y - cubeB.y) === 1);
+
+// If both cubes have symbols and are neighbors, swap them
+if (cubeAIndex && cubeBIndex && areNeighbors) {
+let temp = cubeAIndex.indices[cubeAIndex.index];
+cubeAIndex.indices[cubeAIndex.index] = cubeBIndex.indices[cubeBIndex.index];
+cubeBIndex.indices[cubeBIndex.index] = temp;
+}
 }
 
 // Helper function to find the index and array of a cube's symbol
@@ -263,7 +267,7 @@ function drawTable() {
   
         } else {
           color = "black";
-  
+
         }
       }
     }
