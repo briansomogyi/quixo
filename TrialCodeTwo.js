@@ -9,7 +9,8 @@ let boardSize = 5; // Size of the board (5x5)
 let rotationSpeed = 0.0015; // Speed of rotation
 let gamePaused = false;
 let gap = 20;
-let selectedCube = null; // Store the selected cube
+let selectedCube = null; // Store the selected cube 
+let currentPlayer = 1; // jucatorul 1 incepe jocul 
 
 // Define the indices of the cubes where the circle symbol will be drawn
 let circleIndices = [
@@ -55,48 +56,48 @@ function preload() {
 
 
 function setup() {
-    // create canvas
-    createCanvas(1250, 600, WEBGL);
-    background(220);
-  
-  
-    input = createInput();
-    input.position(20, 65);
-  
-    button = createButton('submit');
-    button.position(input.x + input.width, 65);
-    button.mousePressed(greet);
-  
-    greeting = createElement('h2', 'what is your name?');
-    greeting.position(20, 5);
-  
-    // Set text characteristics
-    textFont(font);
-    textSize(fontsize);
-    textAlign(CENTER);
-    textSize(50);
-  
-    // Restart button
-    let restartButton = createButton('Restart');
-    restartButton.position(20, height - 20);
-    restartButton.mousePressed(restartGame);
-  
-    // Resume button
-    let resumeButton = createButton('Resume');
-    resumeButton.position(100, height - 20);
-    resumeButton.mousePressed(resumeGame);
-  
-    // Finish button
-    let finishButton = createButton('Finish');
-    finishButton.position(180, height - 20);
-    finishButton.mousePressed(finishGame);
-  }
+  // create canvas
+  createCanvas(1250, 600, WEBGL);
+  background(220);
+
+
+  input = createInput();
+  input.position(20, 65);
+
+  button = createButton('submit');
+  button.position(input.x + input.width, 65);
+  button.mousePressed(greet);
+
+  greeting = createElement('h2', 'what is your name?');
+  greeting.position(20, 5);
+
+  // Set text characteristics
+  textFont(font);
+  textSize(fontsize);
+  textAlign(CENTER);
+  textSize(50);
+
+  // Restart button
+  let restartButton = createButton('Restart');
+  restartButton.position(20, height - 20);
+  restartButton.mousePressed(restartGame);
+
+  // Resume button
+  let resumeButton = createButton('Resume');
+  resumeButton.position(100, height - 20);
+  resumeButton.mousePressed(resumeGame);
+
+  // Finish button
+  let finishButton = createButton('Finish');
+  finishButton.position(180, height - 20);
+  finishButton.mousePressed(finishGame);
+}
 
 function draw() {
   //background(220);
   drawTable();
   drawboard();
-  
+
   textSize(20);
   textAlign(CENTER);
   text(gamePaused ? 'Game Paused' : 'Game Running', width / 2, height / 2);
@@ -106,7 +107,7 @@ function draw() {
 function drawboard() {
   let defaultColor = color(255, 206, 158); // Default color for cubes
   let selectedColor = color(255, 255, 0); // Color for selected cube (yellow)
-  
+
   for (let i = 0; i < boardSize; i++) {
     for (let j = 0; j < boardSize; j++) {
       push();
@@ -119,7 +120,7 @@ function drawboard() {
       } else {
         fill(defaultColor);
       }
-      
+
       translate(x - 200, y - 200, z - cubeSize / 2);
       strokeWeight(5);
       box(cubeSize);
@@ -127,11 +128,11 @@ function drawboard() {
       if (circleIndices.some(index => index.x === i && index.y === j)) {
         drawCircleOnFace(cubeSize);
       }
-      
+
       if (crossIndices.some(index => index.x === i && index.y === j)) {
         drawCrossOnFace(cubeSize);
       }
-      
+
       if (squareIndices.some(index => index.x === i && index.y === j)) {
         drawSquareOnFace(cubeSize);
       }
@@ -181,8 +182,14 @@ function mousePressed() {
     } else {
       switchSymbols(selectedCube, { x: boardX, y: boardY });
       selectedCube = null;
+      switchUser();    
     }
   }
+}
+
+function switchUser() {
+  currentPlayer = 3 - currentPlayer; // Schimb jucatorul: 3-1=2 sau 3-2=1 ( a trecut randul jucatorului 1, urmeaza jucatorul 2 sau a trecut randul jucatorului 2, urmeaza jucatorul 1 )
+  console.log(`jucatorul curent este jucatorul ${currentPlayer}`);
 }
 
 function switchSymbols(cubeA, cubeB) {
@@ -224,48 +231,48 @@ function finishGame() {
 
 
 function drawTable() {
+  push();
+  fill(255, 128, 0);
+  ellipse(0, 0, 700, 700);
+  pop();
+}
+
+function greet() {
+  const name = input.value();
+  greeting.html('hello ' + name + '!');
+  input.value('');
+
+  let color = getColorByName(name);
+
+  for (let i = 0; i < 200; i++) {
     push();
-    fill(255, 128, 0);
-    ellipse(0, 0, 700, 700);
+    fill(color);
+    translate(-width / 2 + random(width), -height / 2 + random(height), 0); //moves our drawing origin to the top left corner
+    rotate(random(2 * PI));
+    text(name, 0, 0);
     pop();
   }
-  
-  function greet() {
-    const name = input.value();
-    greeting.html('hello ' + name + '!');
-    input.value('');
-  
-    let color = getColorByName(name);
-  
-    for (let i = 0; i < 200; i++) {
-      push();
-      fill(color);
-      translate(-width / 2 + random(width), -height / 2 + random(height), 0); //moves our drawing origin to the top left corner
-      rotate(random(2 * PI));
-      text(name, 0, 0);
-      pop();
-    }
-  }
-  
-  
-  function getColorByName(name) {
-    let color;
-    if ("etian".startsWith(name.toLowerCase())) {
-      color = " white";
-  
+}
+
+
+function getColorByName(name) {
+  let color;
+  if ("etian".startsWith(name.toLowerCase())) {
+    color = " white";
+
+  } else {
+    if ("brian".startsWith(name.toLowerCase())) {
+      color = "green";
+
     } else {
-      if ("brian".startsWith(name.toLowerCase())) {
-        color = "green";
-  
+      if ("giuliana".startsWith(name.toLowerCase())) {
+        color = "pink";
+
       } else {
-        if ("giuliana".startsWith(name.toLowerCase())) {
-          color = "pink";
-  
-        } else {
-          color = "black";
-  
-        }
+        color = "black";
+
       }
     }
-    return color;
   }
+  return color;
+}
