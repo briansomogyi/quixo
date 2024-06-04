@@ -116,6 +116,21 @@ function setup() {
   textAlign(CENTER);
   textSize(50);
 
+  // Start button
+  let startButton = createButton('Start');
+  startButton.position(20, height - 40);
+  startButton.mousePressed(startGame);
+
+  // Stop button
+  let stopButton = createButton('Stop');
+  stopButton.position(100, height - 40);
+  stopButton.mousePressed(stopGame);
+
+  // Reset button
+  let resetButton = createButton('Reset');
+  resetButton.position(180, height - 40);
+  resetButton.mousePressed(resetGame);
+
   // Restart button
   let restartButton = createButton('Restart');
   restartButton.position(20, height - 20);
@@ -134,7 +149,7 @@ function setup() {
   // Undo button 
   let undoButton = createButton('Undo');
   undoButton.position(260, height - 20);
-  undoButton.mousePressed(pauseGame);
+  undoButton.mousePressed(undoGame);
 }
 
 function draw() {
@@ -282,7 +297,7 @@ function pauseGame() {
 
 }
 
-function undo() {
+function undoGame() {
 
 }
 
