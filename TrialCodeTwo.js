@@ -116,40 +116,10 @@ function setup() {
   textAlign(CENTER);
   textSize(50);
 
-  // Start button
-  let startButton = createButton('Start');
-  startButton.position(20, height - 50);
-  startButton.mousePressed(startGame);
-
-  // Stop button
-  let stopButton = createButton('Stop');
-  stopButton.position(100, height - 50);
-  stopButton.mousePressed(stopGame);
-
   // Reset button
   let resetButton = createButton('Reset');
-  resetButton.position(180, height - 50);
+  resetButton.position(20, height - 20);
   resetButton.mousePressed(resetGame);
-
-  // Restart button
-  let restartButton = createButton('Restart');
-  restartButton.position(20, height - 20);
-  restartButton.mousePressed(restartGame);
-
-  // Resume button
-  let resumeButton = createButton('Resume');
-  resumeButton.position(100, height - 20);
-  resumeButton.mousePressed(resumeGame);
-
-  // Pause button
-  let finishButton = createButton('Pause');
-  finishButton.position(180, height - 20);
-  finishButton.mousePressed(pauseGame);
-
-  // Undo button 
-  let undoButton = createButton('Undo');
-  undoButton.position(260, height - 20);
-  undoButton.mousePressed(undoGame);
 }
 
 function draw() {
@@ -273,41 +243,11 @@ function findSymbolIndex(cube) {
   return null; // Return null if the cube doesn't contain a symbol
 }
 
-function restartGame() {
+function resetGame() {
   gamePaused = false;
   currentCircleIndices = defaultCircleIndices.map(obj => ({ ...obj }));
   currentCrossIndices = defaultCrossIndices.map(obj => ({ ...obj }));
   currentSquareIndices = defaultSquareIndices.map(obj => ({ ...obj }));
-}
-
-function resumeGame() {
-  gamePaused = false;
-}
-
-function finishGame() {
-  gamePaused = true;
-  checkWin();
-}
-
-function pauseGame() {
-  gamePaused = true;
-
-}
-
-function undoGame() {
-
-}
-
-function startGame() {
-  gamePaused = false;
-}
-
-function stopGame() {
-  gamePaused = false;
-}
-
-function resetGame() {
-  gamePaused = false;
 }
 
 function checkWin() {
