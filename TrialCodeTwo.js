@@ -12,8 +12,8 @@ let gap = 20;
 let selectedCube = null; // Store the selected cube 
 let currentPlayer = 1; // jucatorul 1 incepe jocul 
 
-// Define the indices of the cubes where the circle symbol will be drawn
-let circleIndices = [
+// Define the indices of the cubes where the circle symbol will be drawn by default 
+const defaultCircleIndices = [
   { x: 0, y: 0 },
   { x: 2, y: 0 },
   { x: 4, y: 0 },
@@ -25,7 +25,7 @@ let circleIndices = [
   { x: 4, y: 4 }
 ];
 
-let squareIndices = [
+const defaultSquareIndices = [
   { x: 1, y: 1 },
   { x: 3, y: 1 },
   { x: 1, y: 3 },
@@ -35,7 +35,44 @@ let squareIndices = [
   { x: 4, y: 3 }
 ];
 
-let crossIndices = [
+const defaultCrossIndices = [
+  { x: 1, y: 0 },
+  { x: 3, y: 0 },
+  { x: 0, y: 1 },
+  { x: 2, y: 1 },
+  { x: 4, y: 1 },
+  { x: 1, y: 2 },
+  { x: 3, y: 2 },
+  { x: 0, y: 3 },
+  { x: 2, y: 3 }
+];
+
+
+
+// Define the indices of the cubes where the circle symbol will be currently drawn
+let currentCircleIndices = [
+  { x: 0, y: 0 },
+  { x: 2, y: 0 },
+  { x: 4, y: 0 },
+  { x: 0, y: 2 },
+  { x: 2, y: 2 },
+  { x: 4, y: 2 },
+  { x: 0, y: 4 },
+  { x: 2, y: 4 },
+  { x: 4, y: 4 }
+];
+
+let currentSquareIndices = [
+  { x: 1, y: 1 },
+  { x: 3, y: 1 },
+  { x: 1, y: 3 },
+  { x: 3, y: 3 },
+  { x: 1, y: 4 },
+  { x: 3, y: 4 },
+  { x: 4, y: 3 }
+];
+
+let currentCrossIndices = [
   { x: 1, y: 0 },
   { x: 3, y: 0 },
   { x: 0, y: 1 },
@@ -125,15 +162,15 @@ function drawboard() {
       strokeWeight(5);
       box(cubeSize);
 
-      if (circleIndices.some(index => index.x === i && index.y === j)) {
+      if (currentCircleIndices.some(index => index.x === i && index.y === j)) {
         drawCircleOnFace(cubeSize);
       }
 
-      if (crossIndices.some(index => index.x === i && index.y === j)) {
+      if (currentCrossIndices.some(index => index.x === i && index.y === j)) {
         drawCrossOnFace(cubeSize);
       }
 
-      if (squareIndices.some(index => index.x === i && index.y === j)) {
+      if (currentSquareIndices.some(index => index.x === i && index.y === j)) {
         drawSquareOnFace(cubeSize);
       }
 
@@ -182,7 +219,7 @@ function mousePressed() {
     } else {
       switchSymbols(selectedCube, { x: boardX, y: boardY });
       selectedCube = null;
-      switchUser();    
+      switchUser();
     }
   }
 }
@@ -207,7 +244,7 @@ function switchSymbols(cubeA, cubeB) {
 
 // Helper function to find the index and array of a cube's symbol
 function findSymbolIndex(cube) {
-  let symbolArrays = [circleIndices, squareIndices, crossIndices];
+  let symbolArrays = [currentCircleIndices, currentSquareIndices, currentCrossIndices];
   for (let array of symbolArrays) {
     let index = array.findIndex(symbol => symbol.x === cube.x && symbol.y === cube.y);
     if (index !== -1) {
@@ -219,6 +256,9 @@ function findSymbolIndex(cube) {
 
 function restartGame() {
   gamePaused = false;
+  currentCircleIndices = defaultCircleIndices.map(obj => ({ ...obj }));
+  currentCrossIndices = defaultCrossIndices.map(obj => ({ ...obj }));
+  currentSquareIndices = defaultSquareIndices.map(obj => ({ ...obj }));
 }
 
 function resumeGame() {
