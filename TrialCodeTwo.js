@@ -165,7 +165,7 @@ function draw() {
 
 function drawboard() {
   let defaultColor = color(255, 206, 158); // Default color for cubes
-  let selectedColor = color(255, 255, 0); // Color for selected cube (yellow)
+  let selectedColor = color(255, 255, 255); // Color for selected cube (white)
 
   for (let i = 0; i < boardSize; i++) {
     for (let j = 0; j < boardSize; j++) {
@@ -204,7 +204,6 @@ function drawboard() {
 function drawCircleOnFace(size) {
   let offset = size / 2;
   let diameter = size * 0.8;
-  fill(255, 0, 0); // Circle color
   strokeWeight(5);
   translate(0, 0, offset);
   ellipse(0, 0, diameter, diameter);
@@ -213,7 +212,6 @@ function drawCircleOnFace(size) {
 function drawCrossOnFace(size) {
   let offset = size / 2;
   let crossLength = size * 0.8;
-  fill(0, 0, 255); // Cross color
   strokeWeight(5);
   translate(0, 0, offset);
   line(-crossLength / 2, 0, crossLength / 2, 0);
@@ -223,7 +221,6 @@ function drawCrossOnFace(size) {
 function drawSquareOnFace(size) {
   let offset = size / 2;
   let squareSize = size * 0.8;
-  fill(0, 255, 0); // Square color
   strokeWeight(5);
   translate(0, 0, offset);
   rect(-squareSize / 2, -squareSize / 2, squareSize, squareSize);
@@ -321,7 +318,7 @@ function checkWin() {
 
 function drawTable() {
   push();
-  fill(255, 128, 0);
+  fill(65, 25, 0);
   ellipse(0, 0, 700, 700);
   pop();
 }
