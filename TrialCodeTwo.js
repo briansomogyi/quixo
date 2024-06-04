@@ -118,17 +118,17 @@ function setup() {
 
   // Start button
   let startButton = createButton('Start');
-  startButton.position(20, height - 40);
+  startButton.position(20, height - 50);
   startButton.mousePressed(startGame);
 
   // Stop button
   let stopButton = createButton('Stop');
-  stopButton.position(100, height - 40);
+  stopButton.position(100, height - 50);
   stopButton.mousePressed(stopGame);
 
   // Reset button
   let resetButton = createButton('Reset');
-  resetButton.position(180, height - 40);
+  resetButton.position(180, height - 50);
   resetButton.mousePressed(resetGame);
 
   // Restart button
@@ -301,11 +301,21 @@ function undoGame() {
 
 }
 
+function startGame() {
+  gamePaused = false;
+}
+
+function stopGame() {
+  gamePaused = false;
+}
+
+function resetGame() {
+  gamePaused = false;
+}
 
 function checkWin() {
   if (win) {
     win = false;
-
   }
 }
 
