@@ -11,6 +11,8 @@ let gamePaused = false;
 let gap = 20;
 let selectedCube = null; // Store the selected cube 
 let currentPlayer = 1; // jucatorul 1 incepe jocul 
+let win = false; // momentan, nimeni nu a castigat
+
 
 // Define the indices of the cubes where the circle symbol will be drawn by default 
 const defaultCircleIndices = [
@@ -124,10 +126,15 @@ function setup() {
   resumeButton.position(100, height - 20);
   resumeButton.mousePressed(resumeGame);
 
-  // Finish button
-  let finishButton = createButton('Finish');
+  // Pause button
+  let finishButton = createButton('Pause');
   finishButton.position(180, height - 20);
-  finishButton.mousePressed(finishGame);
+  finishButton.mousePressed(pauseGame);
+
+  // Undo button 
+  let undoButton = createButton('Undo');
+  undoButton.position(260, height - 20);
+  undoButton.mousePressed(pauseGame);
 }
 
 function draw() {
@@ -267,8 +274,25 @@ function resumeGame() {
 
 function finishGame() {
   gamePaused = true;
+  checkWin();
 }
 
+function pauseGame() {
+  gamePaused = true;
+
+}
+
+function undo() {
+
+}
+
+
+function checkWin() {
+  if (win) {
+    win = false;
+
+  }
+}
 
 function drawTable() {
   push();
