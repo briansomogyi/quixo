@@ -132,7 +132,6 @@ function draw() {
   text(gamePaused ? 'Game Paused' : 'Game Running', width / 2, height / 2);
 }
 
-
 function drawboard() {
   let defaultColor = color(255, 206, 158); // Default color for cubes
   let selectedColor = color(255, 255, 255); // Color for selected cube (white)
@@ -197,21 +196,44 @@ function drawSquareOnFace(size) {
 }
 
 function mousePressed() {
-  if (gamePaused) return;
-
-  let boardX = floor((mouseX - width / 2 + 200) / (cubeSize + gap));
-  let boardY = floor((mouseY - height / 2 + 200) / (cubeSize + gap));
-
-  if (boardX >= 0 && boardX < boardSize && boardY >= 0 && boardY < boardSize) {
-    if (!selectedCube) {
-      selectedCube = { x: boardX, y: boardY };
-    } else {
-      switchSymbols(selectedCube, { x: boardX, y: boardY });
-      selectedCube = null;
-      switchUser();
+    if (gamePaused) return;
+  
+    let boardX = floor((mouseX - width / 2 + 200) / (cubeSize + gap));
+    let boardY = floor((mouseY - height / 2 + 200) / (cubeSize + gap));
+  
+    // Define the indices of the center cubes
+    const centerCubesIndices = [
+      { x: 1, y: 1 },
+      { x: 1, y: 2 },
+      { x: 1, y: 3 },
+      { x: 2, y: 1 },
+      { x: 2, y: 2 },
+      { x: 2, y: 3 },
+      { x: 3, y: 1 },
+      { x: 3, y: 2 },
+      { x: 3, y: 3 }
+    ];
+  
+    // Check if the clicked cube is a center cube
+    let isCenterCube = centerCubesIndices.some(index => index.x === boardX && index.y === boardY);
+  
+    // If it's a center cube, do not allow selection
+    if (isCenterCube) {
+      console.log('Selection of center cubes is not allowed.');
+      return;
+    }
+  
+    if (boardX >= 0 && boardX < boardSize && boardY >= 0 && boardY < boardSize) {
+      if (!selectedCube) {
+        selectedCube = { x: boardX, y: boardY };
+      } else {
+        switchSymbols(selectedCube, { x: boardX, y: boardY });
+        selectedCube = null;
+        switchUser();
+      }
     }
   }
-}
+  
 
 function switchUser() {
   currentPlayer = 3 - currentPlayer; // Schimb jucatorul: 3-1=2 sau 3-2=1 ( a trecut randul jucatorului 1, urmeaza jucatorul 2 sau a trecut randul jucatorului 2, urmeaza jucatorul 1 )
@@ -219,17 +241,27 @@ function switchUser() {
 }
 
 function switchSymbols(cubeA, cubeB) {
-  // Check if both cubes have symbols and find their respective indices
-  let cubeAIndex = findSymbolIndex(cubeA);
-  let cubeBIndex = findSymbolIndex(cubeB);
-
-  // If both cubes have symbols, swap them
-  if (cubeAIndex && cubeBIndex) {
-    let temp = cubeAIndex.indices[cubeAIndex.index];
-    cubeAIndex.indices[cubeAIndex.index] = cubeBIndex.indices[cubeBIndex.index];
-    cubeBIndex.indices[cubeBIndex.index] = temp;
+    // Check if both cubes are in the same row or the same column
+    let sameRow = cubeA.y === cubeB.y;
+    let sameColumn = cubeA.x === cubeB.x;
+  
+    if (!sameRow && !sameColumn) {
+      console.log('Cubes can only be swapped if they are in the same row or column.');
+      return; // Do not swap if not in the same row or column
+    }
+  
+    // Check if both cubes have symbols and find their respective indices
+    let cubeAIndex = findSymbolIndex(cubeA);
+    let cubeBIndex = findSymbolIndex(cubeB);
+  
+    // If both cubes have symbols, swap them
+    if (cubeAIndex && cubeBIndex) {
+      let temp = cubeAIndex.indices[cubeAIndex.index];
+      cubeAIndex.indices[cubeAIndex.index] = cubeBIndex.indices[cubeBIndex.index];
+      cubeBIndex.indices[cubeBIndex.index] = temp;
+    }
   }
-}
+  
 
 // Helper function to find the index and array of a cube's symbol
 function findSymbolIndex(cube) {
