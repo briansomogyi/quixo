@@ -1,8 +1,11 @@
 let font; // fontul pe care il vom folosi sa scriem pe ecran 
 let fontsize = 32;
-let input; // casuta in care ne vom scrie numele 
-let button; // butonul de submit 
-let greeting;// // titlul de deasupra casutei
+let inputPlayer1; // casuta in care jucatorul 1 isi va scrie numele 
+let inputPlayer2; // casuta in care jucatorul 2 isi va scrie numele
+let button1; // butonul 1 de submit 
+let button2; // butonul 2 de submit
+let greeting1; // titlul de deasupra casutei 1
+let greeting2; // titlul de deasupra casutei 2
 
 let cubeSize = 80; // Size of each cube on the cboard
 let boardSize = 5; // Size of the board (5x5)
@@ -100,15 +103,25 @@ function setup() {
   background(220);
 
 
-  input = createInput();
-  input.position(20, 65);
+  greeting1 = createElement('h2', 'what is your name?');
+  greeting1.position(20, 5);
 
-  button = createButton('submit');
-  button.position(input.x + input.width, 65);
-  button.mousePressed(greet);
+  inputPlayer1 = createInput();
+  inputPlayer1.position(20, 65);
 
-  greeting = createElement('h2', 'what is your name?');
-  greeting.position(20, 5);
+  button1 = createButton('submit');
+  button1.position(inputPlayer1.x + inputPlayer1.width, 65);
+  button1.mousePressed(greet1);
+
+  greeting2 = createElement('h2', 'what is your name?');
+  greeting2.position(20, 85);
+
+  inputPlayer2 = createInput();
+  inputPlayer2.position(20, 135);
+
+  button2 = createButton('submit');
+  button2.position(inputPlayer2.x + inputPlayer2.width, 135);
+  button2.mousePressed(greet2);
 
   // Set text characteristics
   textFont(font);
@@ -295,10 +308,11 @@ function drawTable() {
   pop();
 }
 
-function greet() {
-  const name = input.value();
-  greeting.html('hello ' + name + '!');
-  input.value('');
+function greet1() {
+  const name = inputPlayer1.value();
+  greeting1.html('hello ' + name + '!');
+  inputPlayer1.remove();
+  button1.remove();
 
   let color = getColorByName(name);
 
@@ -311,6 +325,27 @@ function greet() {
     pop();
   }
 }
+
+
+function greet2() {
+  const name = inputPlayer2.value();
+  greeting2.html('hello ' + name + '!');
+  inputPlayer2.remove();
+  button2.remove();
+
+  let color = getColorByName(name);
+
+  for (let i = 0; i < 200; i++) {
+    push();
+    fill(color);
+    translate(-width / 2 + random(width), -height / 2 + random(height), 0); //moves our drawing origin to the top left corner
+    rotate(random(2 * PI));
+    text(name, 0, 0);
+    pop();
+  }
+}
+
+
 
 
 function getColorByName(name) {
