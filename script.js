@@ -1,33 +1,34 @@
-let tiles = []; // Array to store tile objects
+let board = []; // Tabla de joc are forma unui tablou în care ținem minte elementele, pionii de joc
 
 function setup() {
     createCanvas(400, 400);
-    // Initialize tiles (you can adjust the grid size)
+    // Inițializăm tabla de joc (poți să ajustezi dimensiunile tablei de joc)
     for (let i = 0; i < 5; i++) {
         for (let j = 0; j < 5; j++) {
-            tiles.push(new Tile(i * 80, j * 80));
+            const pawn = new Pawn(i * 80, j * 80);
+            board.push(pawn);
         }
     }
 }
 
 function draw() {
     background(220);
-    // Display tiles
-    for (let tile of tiles) {
+    // Afișăm pionii pe tabla de joc
+    for (let tile of board) {
         tile.display();
     }
 }
 
-class Tile {
+class Pawn {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.state = ''; // 'X' or 'O'
+        this.state = ''; // 'X' sau 'O'
         this.selected = false;
     }
 
     display() {
-        // Draw the tile (customize as needed)
+        // Desenăm pionul pe tabla de joc (îl poți personaliza cum dorești tu)
         stroke(0);
         fill(255);
         rect(this.x, this.y, 80, 80);
@@ -37,9 +38,9 @@ class Tile {
         text(this.state, this.x + 40, this.y + 40);
     }
 
-    // Add click handling logic here
+    // Aici intervine logica jocului când dai click
     mouseClicked() {
-        // Update tile state and check for winning condition
+        // Actualizăm starea pionului și verificăm dacă jucătorul a câștigat
         // ...
     }
 }
