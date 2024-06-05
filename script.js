@@ -1,4 +1,5 @@
 let board = []; // Tabla de joc are forma unui tablou în care ținem minte elementele, pionii de joc
+let currentPlayer = 0; // Inițial, jucătorul curent este jucătorul 0 (poate fi 'X' sau 'O')
 
 function setup() {
     createCanvas(400, 400);
@@ -38,9 +39,26 @@ class Pawn {
         text(this.state, this.x + 40, this.y + 40);
     }
 
-    // Aici intervine logica jocului când dai click
+    // Asta se întâmplă dacă dai click
     mouseClicked() {
-        // Actualizăm starea pionului și verificăm dacă jucătorul a câștigat
-        // ...
+        if (!this.selected) {
+            // Schimbi starea pionului ('X' sau 'O')
+            this.state = currentPlayer === 0 ? 'X' : 'O';
+            this.selected = true;
+            // Verifici dacă ai câștigat
+            if (checkWin()) {
+                console.log(`Jucătorul ${currentPlayer + 1} a câștigat!`);
+                // Poți să afișezi un mesaj în consolă sau să faci ceva
+            }
+            // Schimbă jucătorul curent
+            currentPlayer = 1 - currentPlayer;
+        }
     }
+}
+
+function checkWin() {
+    // Aici implementăm condițiile logice pentru a câștiga
+    // Va trebui să verifici pe orizontală, pe verticală și pe diagonală
+    // Funcția returnează true dacă ai câștigat sau false în caz contrar
+    // ...
 }
