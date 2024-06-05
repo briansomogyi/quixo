@@ -37,9 +37,28 @@ class Tile {
         text(this.state, this.x + 40, this.y + 40);
     }
 
-    // Add click handling logic here
+    // Handle tile click
     mouseClicked() {
-        // Update tile state and check for winning condition
-        // ...
+        if (!this.selected) {
+            // Toggle state ('X' or 'O')
+            this.state = currentPlayer === 0 ? 'X' : 'O';
+            this.selected = true;
+            // Check for a win
+            if (checkWin()) {
+                console.log(`Player ${currentPlayer + 1} wins!`);
+                // You can display a message or take other actions here
+            }
+            // Switch players
+            currentPlayer = 1 - currentPlayer;
+        }
     }
+}
+
+let currentPlayer = 0; // Player 0 starts (can be 'X' or 'O')
+
+function checkWin() {
+    // Implement your winning condition logic here
+    // You'll need to check rows, columns, and diagonals
+    // Return true if a win is detected, otherwise false
+    // ...
 }
