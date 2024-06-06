@@ -27,15 +27,15 @@ const defaultCircleIndices = [
   { x: 4, y: 4 }
 ];
 
-const defaultSquareIndices = [
-  { x: 1, y: 1 },
-  { x: 3, y: 1 },
-  { x: 1, y: 3 },
-  { x: 3, y: 3 },
-  { x: 1, y: 4 },
-  { x: 3, y: 4 },
-  { x: 4, y: 3 }
-];
+// const defaultSquareIndices = [
+//   { x: 1, y: 1 },
+//   { x: 3, y: 1 },
+//   { x: 1, y: 3 },
+//   { x: 3, y: 3 },
+//   { x: 1, y: 4 },
+//   { x: 3, y: 4 },
+//   { x: 4, y: 3 }
+// ];
 
 const defaultCrossIndices = [
   { x: 1, y: 0 },
@@ -64,15 +64,15 @@ let currentCircleIndices = [
   { x: 4, y: 4 }
 ];
 
-let currentSquareIndices = [
-  { x: 1, y: 1 },
-  { x: 3, y: 1 },
-  { x: 1, y: 3 },
-  { x: 3, y: 3 },
-  { x: 1, y: 4 },
-  { x: 3, y: 4 },
-  { x: 4, y: 3 }
-];
+// let currentSquareIndices = [
+//   { x: 1, y: 1 },
+//   { x: 3, y: 1 },
+//   { x: 1, y: 3 },
+//   { x: 3, y: 3 },
+//   { x: 1, y: 4 },
+//   { x: 3, y: 4 },
+//   { x: 4, y: 3 }
+// ];
 
 let currentCrossIndices = [
   { x: 1, y: 0 },
@@ -192,9 +192,9 @@ function drawboard() {
         drawCrossOnFace(cubeSize);
       }
 
-      if (currentSquareIndices.some(index => index.x === i && index.y === j)) {
-        drawSquareOnFace(cubeSize);
-      }
+      // if (currentSquareIndices.some(index => index.x === i && index.y === j)) {
+      //   drawSquareOnFace(cubeSize);
+      // }
 
       pop();
     }
@@ -220,14 +220,14 @@ function drawCrossOnFace(size) {
   line(0, -crossLength / 2, 0, crossLength / 2);
 }
 
-function drawSquareOnFace(size) {
-  let offset = size / 2;
-  let squareSize = size * 0.8;
-  fill(0, 255, 0); // Square color
-  strokeWeight(5);
-  translate(0, 0, offset);
-  rect(-squareSize / 2, -squareSize / 2, squareSize, squareSize);
-}
+// function drawSquareOnFace(size) {
+//   let offset = size / 2;
+//   let squareSize = size * 0.8;
+//   fill(0, 255, 0); // Square color
+//   strokeWeight(5);
+//   translate(0, 0, offset);
+//   rect(-squareSize / 2, -squareSize / 2, squareSize, squareSize);
+// }
 
 function mousePressed() {
   if (gamePaused) return;
@@ -246,10 +246,10 @@ function mousePressed() {
   }
 }
 
-function switchUser() {
-  currentPlayer = 3 - currentPlayer; // Schimb jucatorul: 3-1=2 sau 3-2=1 ( a trecut randul jucatorului 1, urmeaza jucatorul 2 sau a trecut randul jucatorului 2, urmeaza jucatorul 1 )
-  console.log(`jucatorul curent este jucatorul ${currentPlayer}`);
-}
+// function switchUser() {
+//   currentPlayer = 3 - currentPlayer; // Schimb jucatorul: 3-1=2 sau 3-2=1 ( a trecut randul jucatorului 1, urmeaza jucatorul 2 sau a trecut randul jucatorului 2, urmeaza jucatorul 1 )
+//   console.log(`jucatorul curent este jucatorul ${currentPlayer}`);
+// }
 
 function switchSymbols(cubeA, cubeB) {
   // Check if both cubes have symbols and find their respective indices
@@ -266,7 +266,7 @@ function switchSymbols(cubeA, cubeB) {
 
 // Helper function to find the index and array of a cube's symbol
 function findSymbolIndex(cube) {
-  let symbolArrays = [currentCircleIndices, currentSquareIndices, currentCrossIndices];
+  let symbolArrays = [currentCircleIndices, currentCrossIndices]; // currentSquareIndices, 
   for (let array of symbolArrays) {
     let index = array.findIndex(symbol => symbol.x === cube.x && symbol.y === cube.y);
     if (index !== -1) {
@@ -276,11 +276,55 @@ function findSymbolIndex(cube) {
   return null; // Return null if the cube doesn't contain a symbol
 }
 
+function computerMove() {
+  // Check for available moves
+  let availableMoves = [];
+  for (let i = 0; i < boardSize; i++) {
+    for (let j = 0; j < boardSize; j++) {
+      // Check if the cube is empty (no symbol)
+      if (!findSymbolIndex({ x: i, y: j })) {
+        availableMoves.push({ x: i, y: j });
+      }
+    }
+  }
+
+  // Choose a random move from available options
+  if (availableMoves.length > 0) {
+    let randomIndex = Math.floor(Math.random() * availableMoves.length);
+    let chosenMove = availableMoves[randomIndex];
+
+    // Make the move on the board (update symbol arrays)
+    if (currentPlayer === 2) {
+      // Remove the last circle symbol from the array
+      currentCircleIndices.pop();
+      // Add circle symbol for computer (player 2)
+      currentCircleIndices.push(chosenMove);
+    } else if (currentPlayer === 1) {
+      // Remove the last cross symbol from the array
+      currentCrossIndices.pop();
+      // Add cross symbol for another player (modify for desired symbol)
+      currentCrossIndices.push(chosenMove);
+    } else {
+      console.error("Unexpected currentPlayer value:", currentPlayer);
+    }
+  } else {
+    console.log("No available moves for computer!");
+  }
+}
+
+function switchUser() {
+  currentPlayer = 3 - currentPlayer;
+  console.log(`Current player is player ${currentPlayer}`);
+  if (currentPlayer === 2) {
+    computerMove();
+  }
+}
+
 function restartGame() {
   gamePaused = false;
   currentCircleIndices = defaultCircleIndices.map(obj => ({ ...obj }));
   currentCrossIndices = defaultCrossIndices.map(obj => ({ ...obj }));
-  currentSquareIndices = defaultSquareIndices.map(obj => ({ ...obj }));
+  // currentSquareIndices = defaultSquareIndices.map(obj => ({ ...obj }));
 }
 
 function resumeGame() {
