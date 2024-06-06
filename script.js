@@ -1,64 +1,124 @@
-let board = []; // Tabla de joc are forma unui tablou în care ținem minte elementele, pionii de joc
-let currentPlayer = 0; // Inițial, jucătorul curent este jucătorul 0 (poate fi 'X' sau 'O')
+class Player {
+    constructor(name) {
+        this.name = name;
+        this.color = this.getColor();
+    }
 
-function setup() {
-    createCanvas(400, 400);
-    // Inițializăm tabla de joc (poți să ajustezi dimensiunile tablei de joc)
-    for (let i = 0; i < 5; i++) {
-        for (let j = 0; j < 5; j++) {
-            const pawn = new Pawn(i * 80, j * 80);
-            board.push(pawn);
+    getColor() {
+        const nameLower = this.name.toLowerCase();
+        if (nameLower.startsWith("etienne")) {
+            return "white";
+        } else if (nameLower.startsWith("brian")) {
+            return "green";
+        } else if (nameLower.startsWith("giuliana")) {
+            return "pink";
+        } else {
+            return "black";
         }
     }
 }
 
-function draw() {
-    background(220);
-    // Afișăm pionii pe tabla de joc
-    for (let tile of board) {
-        tile.display();
-    }
-}
-
-class Pawn {
+class Cube {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.state = ''; // 'X' sau 'O'
-        this.selected = false;
+        this.symbol = null;
     }
 
-    display() {
-        // Desenăm pionul pe tabla de joc (îl poți personaliza cum dorești tu)
-        stroke(0);
-        fill(255);
-        rect(this.x, this.y, 80, 80);
-        textSize(32);
-        textAlign(CENTER, CENTER);
-        fill(0);
-        text(this.state, this.x + 40, this.y + 40);
+    setSymbol(symbol) {
+        this.symbol = symbol;
+    }
+}
+
+class GameBoard {
+    constructor(size) {
+        this.size = size;
+        this.cubes = [];
+        this.currentPlayer = null;
+        this.selectedCube = null;
+        this.win = false;
+
+        this.initializeBoard();
     }
 
-    // Asta se întâmplă dacă dai click
-    mouseClicked() {
-        if (!this.selected) {
-            // Schimbi starea pionului ('X' sau 'O')
-            this.state = currentPlayer === 0 ? 'X' : 'O';
-            this.selected = true;
-            // Verifici dacă ai câștigat
-            if (checkWin()) {
-                console.log(`Jucătorul ${currentPlayer + 1} a câștigat!`);
-                // Poți să afișezi un mesaj în consolă sau să faci ceva
+    initializeBoard() {
+        for (let i = 0; i < this.size; i++) {
+            this.cubes[i] = [];
+            for (let j = 0; j < this.size; j++) {
+                this.cubes[i][j] = new Cube(i, j);
             }
-            // Schimbă jucătorul curent
-            currentPlayer = 1 - currentPlayer;
+        }
+
+        // Set initial symbol positions (move this to separate functions if needed)
+        this.setSymbolIndices(defaultCircleIndices, "circle");
+        this.setSymbolIndices(defaultSquareIndices, "square");
+        this.setSymbolIndices(defaultCrossIndices, "cross");
+    }
+
+    setSymbolIndices(indices, symbol) {
+        for (const index of indices) {
+            this.cubes[index.x][index.y].setSymbol(symbol);
         }
     }
-}
 
-function checkWin() {
-    // Aici implementăm condițiile logice pentru a câștiga
-    // Va trebui să verifici pe orizontală, pe verticală și pe diagonală
-    // Funcția returnează true dacă ai câștigat sau false în caz contrar
-    // ...
-}
+    drawBoard() {
+        let defaultColor = color(255, 206, 158);
+        let selectedColor = color(255, 255, 255);
+
+        for (let i = 0; i < this.size; i++) {
+            for (let j = 0; j < this.size; j++) {
+                push();
+                let x = i * (cubeSize + gap);
+                let y = j * (cubeSize + gap);
+                let z = 0;
+
+                if (this.selectedCube && this.selectedCube.x === i && this.selectedCube.y === j) {
+                    fill(selectedColor);
+                } else {
+                    fill(defaultColor);
+                }
+
+                translate(x - 200, y - 200, z - cubeSize / 2);
+                strokeWeight(5);
+                box(cubeSize);
+
+                const cube = this.cubes[i][j];
+                if (cube.symbol) {
+                    this.drawSymbol(cube.symbol, cubeSize);
+                }
+
+                pop();
+            }
+        }
+    }
+
+    drawSymbol(symbol, size) {
+        let offset = size / 2;
+        strokeWeight(5);
+        translate(0, 0, offset);
+
+        switch (symbol) {
+            case "circle":
+                ellipse(0, 0, size * 0.8, size * 0.8);
+                break;
+            case "cross":
+                const crossLength = size * 0.8;
+                line(-crossLength / 2, 0, crossLength / 2, 0);
+                line(0, -crossLength / 2, 0, crossLength / 2);
+                break;
+            case "square":
+                const squareSize = size * 0.8;
+                rect(-squareSize / 2, -squareSize / 2, squareSize, squareSize);
+                break;
+        }
+    }
+
+    handleClick(x, y) {
+        if (gamePaused) return;
+
+        const boardX = floor((mouseX - width / 2 + 200) / (cubeSize + gap));
+        const boardY = floor((mouseY - height / 2 + 200) / (cubeSize + gap));
+
+        // Define center cubes (move this to separate function if needed)
+        const centerCubesIndices = [
+            { x: 1,
