@@ -6,7 +6,7 @@ class Player {
 
     getColor() {
         const nameLower = this.name.toLowerCase();
-        if (nameLower.startsWith("etienne")) {
+        if (nameLower.startsWith("etian")) {
             return "white";
         } else if (nameLower.startsWith("brian")) {
             return "green";
@@ -48,22 +48,11 @@ class GameBoard {
                 this.cubes[i][j] = new Cube(i, j);
             }
         }
-
-        // Set initial symbol positions (move this to separate functions if needed)
-        this.setSymbolIndices(defaultCircleIndices, "circle");
-        this.setSymbolIndices(defaultSquareIndices, "square");
-        this.setSymbolIndices(defaultCrossIndices, "cross");
-    }
-
-    setSymbolIndices(indices, symbol) {
-        for (const index of indices) {
-            this.cubes[index.x][index.y].setSymbol(symbol);
-        }
     }
 
     drawBoard() {
-        let defaultColor = color(255, 206, 158);
-        let selectedColor = color(255, 255, 255);
+        let defaultColor = color(255, 206, 158); // Default color for cubes
+        let selectedColor = color(255, 255, 255); // Color for selected cube (white)
 
         for (let i = 0; i < this.size; i++) {
             for (let j = 0; j < this.size; j++) {
@@ -82,34 +71,16 @@ class GameBoard {
                 strokeWeight(5);
                 box(cubeSize);
 
-                const cube = this.cubes[i][j];
-                if (cube.symbol) {
-                    this.drawSymbol(cube.symbol, cubeSize);
+                if (this.cubes[i][j].symbol === "circle") {
+                    drawCircleOnFace(cubeSize);
+                } else if (this.cubes[i][j].symbol === "cross") {
+                    drawCrossOnFace(cubeSize);
+                } else if (this.cubes[i][j].symbol === "square") {
+                    drawSquareOnFace(cubeSize);
                 }
 
                 pop();
             }
-        }
-    }
-
-    drawSymbol(symbol, size) {
-        let offset = size / 2;
-        strokeWeight(5);
-        translate(0, 0, offset);
-
-        switch (symbol) {
-            case "circle":
-                ellipse(0, 0, size * 0.8, size * 0.8);
-                break;
-            case "cross":
-                const crossLength = size * 0.8;
-                line(-crossLength / 2, 0, crossLength / 2, 0);
-                line(0, -crossLength / 2, 0, crossLength / 2);
-                break;
-            case "square":
-                const squareSize = size * 0.8;
-                rect(-squareSize / 2, -squareSize / 2, squareSize, squareSize);
-                break;
         }
     }
 
@@ -119,6 +90,28 @@ class GameBoard {
         const boardX = floor((mouseX - width / 2 + 200) / (cubeSize + gap));
         const boardY = floor((mouseY - height / 2 + 200) / (cubeSize + gap));
 
-        // Define center cubes (move this to separate function if needed)
+        // Define the indices of the center cubes
         const centerCubesIndices = [
-            { x: 1,
+            { x: 1, y: 1 },
+            { x: 1, y: 2 },
+            { x: 1, y: 3 },
+            { x: 2, y: 1 },
+            { x: 2, y: 2 },
+            { x: 2, y: 3 },
+            { x: 3, y: 1 },
+            { x: 3, y: 2 },
+            { x: 3, y: 3 },
+        ];
+
+        // Check if the clicked cube is a center cube
+        const isCenterCube = centerCubesIndices.some(index => index.x === boardX && index.y === boardY);
+
+        // If it's a center cube, do not allow selection
+        if (isCenterCube) {
+            console.log('Selection of center cubes is not allowed.');
+            return;
+        }
+
+        if (boardX >= 0 && boardX < this.size && boardY >= 0 && boardY < this.size) {
+            if (!this.selectedCube) {
+                this
