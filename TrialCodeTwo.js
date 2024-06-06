@@ -126,10 +126,15 @@ function setup() {
   stopButton.position(100, height - 50);
   stopButton.mousePressed(stopGame);
 
-  // Reset button
+  // Reset button 
   let resetButton = createButton('Reset');
   resetButton.position(180, height - 50);
   resetButton.mousePressed(resetGame);
+
+  // Pause button
+  let pauseButton = createButton('Pause');
+  pauseButton.position(260, height - 50);
+  pauseButton.mousePressed(pauseGame);
 
   // Restart button
   let restartButton = createButton('Restart');
@@ -141,10 +146,10 @@ function setup() {
   resumeButton.position(100, height - 20);
   resumeButton.mousePressed(resumeGame);
 
-  // Pause button
-  let finishButton = createButton('Pause');
+  // Finish button 
+  let finishButton = createButton('Finish');
   finishButton.position(180, height - 20);
-  finishButton.mousePressed(pauseGame);
+  finishButton.mousePressed(finishGame);
 
   // Undo button 
   let undoButton = createButton('Undo');
@@ -277,45 +282,46 @@ function findSymbolIndex(cube) {
 }
 
 function restartGame() {
-  gamePaused = false;
+  gamePaused = false; // reincepe jocul
+  win = false; // nu am castigat 
   currentCircleIndices = defaultCircleIndices.map(obj => ({ ...obj }));
   currentCrossIndices = defaultCrossIndices.map(obj => ({ ...obj }));
   currentSquareIndices = defaultSquareIndices.map(obj => ({ ...obj }));
 }
 
 function resumeGame() {
-  gamePaused = false;
+  gamePaused = false; // scoate jocul de pe pauza 
 }
 
 function finishGame() {
-  gamePaused = true;
-  checkWin();
+  gamePaused = true; // jocul s-a terminat 
+  checkWin(); // verifica cine a castigat 
 }
 
 function pauseGame() {
-  gamePaused = true;
+  gamePaused = true; // pune jocul pe pauza 
 
 }
 
 function undoGame() {
-
+  // reface ultima mutare (adica prima de la capat)
 }
 
 function startGame() {
-  gamePaused = false;
+  gamePaused = false; // incepe jocul
 }
 
 function stopGame() {
-  gamePaused = false;
+  gamePaused = true; // opreste jocul  
 }
 
 function resetGame() {
-  gamePaused = false;
+  gamePaused = false; // reseteaza jocul 
 }
 
 function checkWin() {
-  if (win) {
-    win = false;
+  if (!win) { // daca nu am castigat 
+    win = true; // am castigat
   }
 }
 
